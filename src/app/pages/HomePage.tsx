@@ -2,6 +2,7 @@ import { ArrowRight, Truck, Shield, Award, Instagram } from 'lucide-react';
 import { Link } from 'react-router';
 import { ProductCard } from '../components/ProductCard';
 import { products, categories } from '../data/products';
+import { strings } from '../constants/strings';
 
 export function HomePage() {
   const featuredProducts = products.filter(p => p.featured);
@@ -22,16 +23,16 @@ export function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full">
           <div className="max-w-2xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-tight">
-              Performance Wheels <span className="text-[#dc2626]">for Your Car</span>
+              {strings.home.heroTitle.split(' para ')[0]} <span className="text-[#dc2626]">para {strings.home.heroTitle.split(' para ')[1]}</span>
             </h1>
             <p className="text-xl text-gray-300 mb-8">
-              Transform your vehicle with premium quality wheels. Speed, style, and performance in every rotation.
+              {strings.home.heroSubtitle}
             </p>
             <Link
               to="/products"
               className="inline-flex items-center space-x-2 bg-[#dc2626] hover:bg-[#b91c1c] text-white px-8 py-4 rounded-md transition-colors text-lg font-semibold"
             >
-              <span>Shop Now</span>
+              <span>{strings.home.shopNow}</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -43,9 +44,9 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Shop by <span className="text-[#dc2626]">Category</span>
+              {strings.home.shopByCategory.split(' por ')[0]} <span className="text-[#dc2626]">por {strings.home.shopByCategory.split(' por ')[1]}</span>
             </h2>
-            <p className="text-gray-400 text-lg">Find the perfect wheels for your vehicle type</p>
+            <p className="text-gray-400 text-lg">{strings.home.findPerfectWheels}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -83,15 +84,15 @@ export function HomePage() {
           <div className="flex justify-between items-center mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-                Featured <span className="text-[#dc2626]">Products</span>
+                {strings.home.featuredProducts.split(' em ')[0]} <span className="text-[#dc2626]">em {strings.home.featuredProducts.split(' em ')[1]}</span>
               </h2>
-              <p className="text-gray-400 text-lg">Top picks for performance enthusiasts</p>
+              <p className="text-gray-400 text-lg">{strings.home.topPicks}</p>
             </div>
             <Link
               to="/products"
               className="hidden md:flex items-center space-x-2 text-[#dc2626] hover:text-white transition-colors"
             >
-              <span>View All</span>
+              <span>{strings.home.viewAll}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -107,7 +108,7 @@ export function HomePage() {
               to="/products"
               className="inline-flex items-center space-x-2 text-[#dc2626] hover:text-white transition-colors"
             >
-              <span>View All Products</span>
+              <span>{strings.home.viewAll}</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -119,16 +120,16 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
-              Special Offer: 20% OFF
+              {strings.home.specialOffer}
             </h2>
             <p className="text-white/90 text-xl mb-8">
-              On all sport wheels this month. Limited time only!
+              {strings.home.onAllSportWheels}
             </p>
             <Link
               to="/products"
               className="inline-flex items-center space-x-2 bg-black hover:bg-[#1a1a1a] text-white px-8 py-4 rounded-md transition-colors text-lg font-semibold"
             >
-              <span>Shop Sale</span>
+              <span>{strings.home.shopSale}</span>
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -143,9 +144,9 @@ export function HomePage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#dc2626] rounded-full mb-4">
                 <Truck className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Fast Delivery</h3>
+              <h3 className="text-xl font-bold text-white mb-2">{strings.home.fastDelivery}</h3>
               <p className="text-gray-400">
-                Free shipping on orders over $500. Get your wheels fast and secure.
+                {strings.home.freeShipping}
               </p>
             </div>
 
@@ -153,9 +154,9 @@ export function HomePage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#dc2626] rounded-full mb-4">
                 <Shield className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Secure Payment</h3>
+              <h3 className="text-xl font-bold text-white mb-2">{strings.home.securePayment}</h3>
               <p className="text-gray-400">
-                100% secure payment processing. Your information is protected.
+                {strings.home.securePaymentDesc}
               </p>
             </div>
 
@@ -163,9 +164,9 @@ export function HomePage() {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-[#dc2626] rounded-full mb-4">
                 <Award className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Quality Guarantee</h3>
+              <h3 className="text-xl font-bold text-white mb-2">{strings.home.qualityGuarantee}</h3>
               <p className="text-gray-400">
-                Premium quality wheels with manufacturer warranty included.
+                {strings.home.qualityGuaranteeDesc}
               </p>
             </div>
           </div>
@@ -178,12 +179,12 @@ export function HomePage() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center space-x-2 text-[#dc2626] mb-4">
               <Instagram className="w-6 h-6" />
-              <span className="font-semibold">@fastrodas</span>
+              <span className="font-semibold">{strings.home.instagramHandle}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-              Follow Us on <span className="text-[#dc2626]">Instagram</span>
+              {strings.home.followOnInstagram.split(' no ')[0]} <span className="text-[#dc2626]">no {strings.home.followOnInstagram.split(' no ')[1]}</span>
             </h2>
-            <p className="text-gray-400 text-lg">See our wheels in action</p>
+            <p className="text-gray-400 text-lg">{strings.home.seeWheelsInAction}</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

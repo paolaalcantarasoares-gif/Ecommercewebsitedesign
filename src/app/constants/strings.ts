@@ -1,0 +1,69 @@
+export const strings = {
+  home: {
+    heroTitle: "Rodas de Performance para Seu Carro",
+    heroSubtitle: "Transforme seu veículo com rodas de qualidade premium. Velocidade, estilo e performance em cada rotação.",
+    shopNow: "Comprar Agora",
+    shopByCategory: "Comprar por Categoria",
+    findPerfectWheels: "Encontre as rodas perfeitas para o tipo do seu veículo",
+    featuredProducts: "Produtos em Destaque",
+    topPicks: "Escolhas principais para entusiastas de performance",
+    viewAll: "Ver Todos",
+    specialOffer: "Oferta Especial: 20% OFF",
+    onAllSportWheels: "Em todas as rodas esportivas este mês. Tempo limitado!",
+    shopSale: "Comprar Oferta",
+    fastDelivery: "Entrega Rápida",
+    freeShipping: "Frete grátis em pedidos acima de $500. Receba suas rodas rápido e seguro.",
+    securePayment: "Pagamento Seguro",
+    securePaymentDesc: "Processamento de pagamento 100% seguro. Suas informações estão protegidas.",
+    qualityGuarantee: "Garantia de Qualidade",
+    qualityGuaranteeDesc: "Rodas de qualidade premium com garantia do fabricante incluída.",
+    followOnInstagram: "Siga-nos no Instagram",
+    instagramHandle: "@fastrodas",
+    seeWheelsInAction: "Veja nossas rodas em ação"
+  },
+  products: {
+    allProducts: "Todos os Produtos",
+    showingProducts: "Mostrando {filtered} de {total} produtos",
+    filters: "Filtros",
+    category: "Categoria",
+    brand: "Marca",
+    wheelSize: "Tamanho da Roda",
+    priceRange: "Faixa de Preço",
+    resetFilters: "Redefinir Filtros",
+    sortBy: "Ordenar por:",
+    mostPopular: "Mais Popular",
+    priceLowToHigh: "Preço: Baixo para Alto",
+    priceHighToLow: "Preço: Alto para Baixo",
+    newest: "Mais Novo",
+    noProductsFound: "Nenhum produto encontrado correspondendo aos filtros.",
+    clearAllFilters: "Limpar todos os filtros"
+  },
+  header: {
+    home: "Início",
+    products: "Produtos",
+    categories: "Categorias",
+    contact: "Contato",
+    search: "Buscar"
+  },
+  footer: {
+    brandDesc: "Rodas automotivas premium para performance e estilo. Qualidade garantida.",
+    products: "Produtos",
+    categories: "Categorias",
+    contact: "Contato",
+    customerService: "Atendimento ao Cliente",
+    shippingPolicy: "Política de Envio",
+    returnPolicy: "Política de Devolução",
+    faq: "FAQ",
+    warranty: "Garantia",
+    contactUs: "Entre em Contato",
+    address: "123 Rua do Automóvel, Cidade Performance, PC 12345",
+    phone: "+1 (555) 123-4567",
+    email: "info@fastrodas.com",
+    copyright: "© 2026 Fast Rodas. Todos os direitos reservados.",
+    privacyPolicy: "Política de Privacidade",
+    termsOfService: "Termos de Serviço"
+  },
+  productCard: {
+    sale: "PROMOÇÃO"
+  }
+};

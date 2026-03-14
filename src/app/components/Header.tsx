@@ -1,6 +1,7 @@
 import { Search, ShoppingCart, Menu, X } from 'lucide-react';
 import { Link } from 'react-router';
 import { useState } from 'react';
+import { strings } from '../constants/strings';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -21,16 +22,16 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-white hover:text-[#dc2626] transition-colors">
-              Home
+              {strings.header.home}
             </Link>
             <Link to="/products" className="text-white hover:text-[#dc2626] transition-colors">
-              Products
+              {strings.header.products}
             </Link>
             <a href="#categories" className="text-white hover:text-[#dc2626] transition-colors">
-              Categories
+              {strings.header.categories}
             </a>
             <a href="#contact" className="text-white hover:text-[#dc2626] transition-colors">
-              Contact
+              {strings.header.contact}
             </a>
           </nav>
 
@@ -38,7 +39,7 @@ export function Header() {
           <div className="flex items-center space-x-4">
             <button className="hidden md:flex items-center space-x-2 px-4 py-2 bg-[#1a1a1a] rounded-md text-white hover:bg-[#262626] transition-colors">
               <Search className="w-4 h-4" />
-              <span className="text-sm">Search</span>
+              <span className="text-sm">{strings.header.search}</span>
             </button>
             
             <button className="relative p-2 text-white hover:text-[#dc2626] transition-colors">
@@ -70,32 +71,32 @@ export function Header() {
               className="block text-white hover:text-[#dc2626] transition-colors py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Home
+              {strings.header.home}
             </Link>
             <Link
               to="/products"
               className="block text-white hover:text-[#dc2626] transition-colors py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Products
+              {strings.header.products}
             </Link>
             <a
               href="#categories"
               className="block text-white hover:text-[#dc2626] transition-colors py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Categories
+              {strings.header.categories}
             </a>
             <a
               href="#contact"
               className="block text-white hover:text-[#dc2626] transition-colors py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Contact
+              {strings.header.contact}
             </a>
             <button className="w-full flex items-center space-x-2 px-4 py-2 bg-[#1a1a1a] rounded-md text-white hover:bg-[#262626] transition-colors">
               <Search className="w-4 h-4" />
-              <span className="text-sm">Search</span>
+              <span className="text-sm">{strings.header.search}</span>
             </button>
           </nav>
         </div>

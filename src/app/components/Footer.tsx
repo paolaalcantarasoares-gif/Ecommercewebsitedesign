@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Twitter, MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { strings } from '../constants/strings';
 
 export function Footer() {
   return (
@@ -12,7 +13,7 @@ export function Footer() {
               <span className="text-2xl font-black text-[#dc2626] ml-1">RODAS</span>
             </div>
             <p className="text-gray-400 text-sm mb-4">
-              Premium automotive wheels for performance and style. Quality guaranteed.
+              {strings.footer.brandDesc}
             </p>
             <div className="flex space-x-3">
               <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors">
@@ -38,17 +39,17 @@ export function Footer() {
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Products
+                  {strings.footer.products}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Categories
+                  {strings.footer.categories}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Contact
+                  {strings.footer.contact}
                 </a>
               </li>
             </ul>
@@ -56,26 +57,26 @@ export function Footer() {
 
           {/* Customer Service */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Customer Service</h3>
+            <h3 className="text-white font-semibold mb-4">{strings.footer.customerService}</h3>
             <ul className="space-y-2">
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Shipping Policy
+                  {strings.footer.shippingPolicy}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Return Policy
+                  {strings.footer.returnPolicy}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  FAQ
+                  {strings.footer.faq}
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-400 hover:text-[#dc2626] transition-colors text-sm">
-                  Warranty
+                  {strings.footer.warranty}
                 </a>
               </li>
             </ul>
@@ -83,19 +84,19 @@ export function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-white font-semibold mb-4">{strings.footer.contactUs}</h3>
             <ul className="space-y-3">
               <li className="flex items-start space-x-2 text-gray-400 text-sm">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span>123 Auto Street, Performance City, PC 12345</span>
+                <span>{strings.footer.address}</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <Phone className="w-4 h-4 flex-shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <span>{strings.footer.phone}</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>info@fastrodas.com</span>
+                <span>{strings.footer.email}</span>
               </li>
             </ul>
           </div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 import { products } from '../data/products';
+import { strings } from '../constants/strings';
 
 export function ProductsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -44,7 +45,7 @@ export function ProductsPage() {
     <div className="space-y-6">
       {/* Category Filter */}
       <div>
-        <h3 className="text-white font-semibold mb-3">Category</h3>
+        <h3 className="text-white font-semibold mb-3">{strings.products.category}</h3>
         <div className="space-y-2">
           {categories.map(category => (
             <label key={category} className="flex items-center space-x-2 cursor-pointer group">
@@ -65,7 +66,7 @@ export function ProductsPage() {
 
       {/* Brand Filter */}
       <div>
-        <h3 className="text-white font-semibold mb-3">Brand</h3>
+        <h3 className="text-white font-semibold mb-3">{strings.products.brand}</h3>
         <div className="space-y-2">
           {brands.map(brand => (
             <label key={brand} className="flex items-center space-x-2 cursor-pointer group">
@@ -86,7 +87,7 @@ export function ProductsPage() {
 
       {/* Size Filter */}
       <div>
-        <h3 className="text-white font-semibold mb-3">Wheel Size</h3>
+        <h3 className="text-white font-semibold mb-3">{strings.products.wheelSize}</h3>
         <div className="space-y-2">
           {sizes.map(size => (
             <label key={size} className="flex items-center space-x-2 cursor-pointer group">
@@ -107,7 +108,7 @@ export function ProductsPage() {
 
       {/* Price Range */}
       <div>
-        <h3 className="text-white font-semibold mb-3">Price Range</h3>
+        <h3 className="text-white font-semibold mb-3">{strings.products.priceRange}</h3>
         <div className="space-y-3">
           <input
             type="range"
@@ -135,7 +136,7 @@ export function ProductsPage() {
         }}
         className="w-full px-4 py-2 bg-[#262626] hover:bg-[#333333] text-white rounded-md transition-colors"
       >
-        Reset Filters
+        {strings.products.resetFilters}
       </button>
     </div>
   );
@@ -146,10 +147,10 @@ export function ProductsPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
-            All <span className="text-[#dc2626]">Products</span>
+            {strings.products.allProducts.split(' os ')[0]} <span className="text-[#dc2626]">os {strings.products.allProducts.split(' os ')[1]}</span>
           </h1>
           <p className="text-gray-400">
-            Showing {filteredProducts.length} of {products.length} products
+            {strings.products.showingProducts.replace('{filtered}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
           </p>
         </div>
 
@@ -160,20 +161,20 @@ export function ProductsPage() {
             className="md:hidden flex items-center space-x-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#262626] text-white rounded-md transition-colors"
           >
             <SlidersHorizontal className="w-4 h-4" />
-            <span>Filters</span>
+            <span>{strings.products.filters}</span>
           </button>
 
           <div className="flex items-center space-x-2 w-full md:w-auto">
-            <label className="text-gray-400 text-sm whitespace-nowrap">Sort by:</label>
+            <label className="text-gray-400 text-sm whitespace-nowrap">{strings.products.sortBy}</label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="flex-1 md:flex-initial px-4 py-2 bg-[#1a1a1a] border border-[#262626] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#dc2626]"
             >
-              <option value="popular">Most Popular</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="newest">Newest</option>
+              <option value="popular">{strings.products.mostPopular}</option>
+              <option value="price-low">{strings.products.priceLowToHigh}</option>
+              <option value="price-high">{strings.products.priceHighToLow}</option>
+              <option value="newest">{strings.products.newest}</option>
             </select>
           </div>
         </div>
@@ -183,7 +184,7 @@ export function ProductsPage() {
           <aside className="hidden md:block w-64 flex-shrink-0">
             <div className="sticky top-24 bg-[#1a1a1a] border border-[#262626] rounded-lg p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">Filters</h2>
+                <h2 className="text-xl font-bold text-white">{strings.products.filters}</h2>
                 <SlidersHorizontal className="w-5 h-5 text-[#dc2626]" />
               </div>
               <FilterSidebar />
@@ -197,7 +198,7 @@ export function ProductsPage() {
               <div className="absolute right-0 top-0 bottom-0 w-80 max-w-[90vw] bg-[#1a1a1a] border-l border-[#262626] overflow-y-auto">
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-white">Filters</h2>
+                    <h2 className="text-xl font-bold text-white">{strings.products.filters}</h2>
                     <button
                       onClick={() => setShowFilters(false)}
                       className="p-2 text-gray-400 hover:text-white"
@@ -221,7 +222,7 @@ export function ProductsPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">No products found matching your filters.</p>
+                <p className="text-gray-400 text-lg">{strings.products.noProductsFound}</p>
                 <button
                   onClick={() => {
                     setSelectedCategory('all');
@@ -231,7 +232,7 @@ export function ProductsPage() {
                   }}
                   className="mt-4 text-[#dc2626] hover:text-white transition-colors"
                 >
-                  Clear all filters
+                  {strings.products.clearAllFilters}
                 </button>
               </div>
             )}

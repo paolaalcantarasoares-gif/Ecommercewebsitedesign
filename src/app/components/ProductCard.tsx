@@ -1,6 +1,7 @@
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router';
 import type { Product } from '../data/products';
+import { strings } from '../constants/strings';
 
 interface ProductCardProps {
   product: Product;
@@ -19,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
           />
           {product.oldPrice && (
             <div className="absolute top-4 left-4 bg-[#dc2626] text-white px-3 py-1 rounded-md text-sm font-semibold">
-              SALE
+              {strings.productCard.sale}
             </div>
           )}
         </div>
