@@ -27,9 +27,6 @@ export function Header() {
             <Link to="/products" className="text-white hover:text-[#dc2626] transition-colors">
               {strings.header.products}
             </Link>
-            <a href="#categories" className="text-white hover:text-[#dc2626] transition-colors">
-              {strings.header.categories}
-            </a>
           </nav>
 
           {/* Search and Cart */}
@@ -77,13 +74,6 @@ export function Header() {
             >
               {strings.header.products}
             </Link>
-            <a
-              href="#categories"
-              className="block text-white hover:text-[#dc2626] transition-colors py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {strings.header.categories}
-            </a>
           </nav>
         </div>
       )}
