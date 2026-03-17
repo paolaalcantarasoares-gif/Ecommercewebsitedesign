@@ -106,19 +106,7 @@ export function ProductPage() {
                 <span className="text-4xl font-black text-white">
                   ${product.price.toFixed(2)}
                 </span>
-                {product.oldPrice && (
-                  <span className="text-xl text-gray-500 line-through">
-                    ${product.oldPrice.toFixed(2)}
-                  </span>
-                )}
               </div>
-              {product.oldPrice && (
-                <div className="mt-2">
-                  <span className="inline-block bg-[#dc2626] text-white px-3 py-1 rounded-md text-sm font-semibold">
-                    Save ${(product.oldPrice - product.price).toFixed(2)}
-                  </span>
-                </div>
-              )}
             </div>
 
             {/* Description */}

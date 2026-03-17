@@ -2,10 +2,11 @@ export interface Product {
   id: string;
   name: string;
   price: number;
-  oldPrice?: number;
   image: string;
   category: string;
   brand: string;
+  aro: number;
+  furacao: string;
   size: string[];
   color: string[];
   rating: number;
@@ -24,10 +25,11 @@ export const products: Product[] = [
     id: '1',
     name: 'Sport Racing Wheel RS-7',
     price: 1299.99,
-    oldPrice: 1599.99,
     image: 'https://images.unsplash.com/photo-1729243830701-b3acde954451?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXIlMjB3aGVlbCUyMGFsbG95JTIwc3BvcnRzfGVufDF8fHx8MTc3MzI0NjE4M3ww&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Racing Pro',
+    aro: 17,
+    furacao: '5x112',
     size: ['17"', '18"', '19"', '20"'],
     color: ['Black', 'Silver', 'Gunmetal'],
     rating: 4.8,
@@ -55,6 +57,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1758563920433-4b89316160e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFsbG95JTIwd2hlZWwlMjByaW18ZW58MXx8fHwxNzczMjQ2MTgzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Elite Motors',
+    aro: 18,
+    furacao: "",
     size: ['18"', '19"', '20"'],
     color: ['Black', 'Matte Black'],
     rating: 4.7,
@@ -78,7 +82,6 @@ export const products: Product[] = [
     id: '3',
     name: 'Chrome Performance Rim',
     price: 1499.99,
-    oldPrice: 1799.99,
     image: 'https://images.unsplash.com/photo-1772391579024-fc09e103be4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHJvbWUlMjB3aGVlbCUyMHJpbSUyMGF1dG9tb3RpdmV8ZW58MXx8fHwxNzczMjQ2MTgzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Chrome Master',
@@ -99,7 +102,9 @@ export const products: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1772391579024-fc09e103be4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHJvbWUlMjB3aGVlbCUyMHJpbSUyMGF1dG9tb3RpdmV8ZW58MXx8fHwxNzczMjQ2MTgzfDA&ixlib=rb-4.1.0&q=80&w=1080',
       'https://images.unsplash.com/photo-1752959818576-b0991721789d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjB3aGVlbCUyMGRldGFpbHxlbnwxfHx8fDE3NzMyNDYxODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    ]
+    ],
+    aro: 17,
+    furacao: ""
   },
   {
     id: '4',
@@ -108,6 +113,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1617045434421-a72d713fc8a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXYlMjB0cnVjayUyMHdoZWVsJTIwdGlyZXxlbnwxfHx8fDE3NzMyNDYxODR8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'SUV Wheels',
     brand: 'Terrain King',
+    aro: 17,
+    furacao: "",
     size: ['17"', '18"', '20"'],
     color: ['Black', 'Bronze', 'Gunmetal'],
     rating: 4.6,
@@ -134,6 +141,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1767712774532-2d58c9edf7b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJmb3JtYW5jZSUyMGNhciUyMHdoZWVsJTIwY2xvc2V8ZW58MXx8fHwxNzczMjQ2MTg0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Racing Pro',
+    aro: 18,
+    furacao: "",
     size: ['18"', '19"', '20"'],
     color: ['Black', 'Red', 'Silver'],
     rating: 4.8,
@@ -175,7 +184,9 @@ export const products: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1553072464-6e106d8b602f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYWNpbmclMjB3aGVlbCUyMHNwb3J0cyUyMGNhcnxlbnwxfHx8fDE3NzMyNDYxODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
       'https://images.unsplash.com/photo-1732564401435-1a27110f2528?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjBzcG9ydHMlMjBjYXIlMjB3aGVlbHxlbnwxfHx8fDE3NzMyNDYxODZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    ]
+    ],
+    aro: 19,
+    furacao: ""
   },
   {
     id: '7',
@@ -184,6 +195,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1752959818576-b0991721789d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjB3aGVlbCUyMGRldGFpbHxlbnwxfHx8fDE3NzMyNDYxODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Luxury Auto',
+    aro: 19,
+    furacao: "",
     size: ['19"', '20"', '21"', '22"'],
     color: ['Silver', 'Chrome', 'Black'],
     rating: 4.7,
@@ -209,6 +222,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1732564401435-1a27110f2528?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjBzcG9ydHMlMjBjYXIlMjB3aGVlbHxlbnwxfHx8fDE3NzMyNDYxODZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Speed Demon',
+    aro: 18,
+    furacao: "",
     size: ['18"', '19"', '20"'],
     color: ['Red', 'Black', 'White'],
     rating: 4.8,
@@ -234,6 +249,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1705357311458-398681eb9da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRvbW90aXZlJTIwd29ya3Nob3AlMjB3aGVlbHN8ZW58MXx8fHwxNzczMjQ2MTg2fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Truck Wheels',
     brand: 'Heavy Hauler',
+    aro: 17,
+    furacao: "",
     size: ['17"', '18"', '20"'],
     color: ['Black', 'Gunmetal', 'Bronze'],
     rating: 4.7,
@@ -259,6 +276,8 @@ export const products: Product[] = [
     image: 'https://images.unsplash.com/photo-1769500152368-a38a756b0367?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXIlMjBwZXJmb3JtYW5jZSUyMHJpbXN8ZW58MXx8fHwxNzczMjQ2MTg2fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
     brand: 'Elite Motors',
+    aro: 19,
+    furacao: "",
     size: ['19"', '20"', '21"'],
     color: ['Black', 'Silver', 'Bronze'],
     rating: 4.9,

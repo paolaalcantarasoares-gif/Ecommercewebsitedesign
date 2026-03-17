@@ -28,6 +28,8 @@ export const strings = {
     category: "Categoria",
     brand: "Marca",
     wheelSize: "Tamanho da Roda",
+    furacao: "Furação",
+    tituloFuracao: "Furação",
     priceRange: "Faixa de Preço",
     resetFilters: "Redefinir Filtros",
     sortBy: "Ordenar por:",

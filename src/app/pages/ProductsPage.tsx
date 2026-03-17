@@ -1,16 +1,64 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
-import { products } from '../data/products';
+import { supabase } from '../utils/supabase';
 import { strings } from '../constants/strings';
+import type { Product } from '../data/products';
 
 export function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
+  const [selectedFuracao, setSelectedFuracao] = useState<string>('all');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [sortBy, setSortBy] = useState<string>('popular');
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('produtos')
+          .select('*');
+
+        console.log('Fetched products:', data);
+
+        if (error) {
+          console.error('Error fetching products:', error);
+          return;
+        }
+
+        const mappedProducts = (data || []).map(item => ({
+          id: item.id,
+          name: item.descricao,
+          price: item.valor,
+          image: item.url_imagem,
+          category: 'Geral', // Default since not in table
+          marca: item.marca,  // Default
+          aro: item.aro, // Default rim size as number
+          furacao: item.furacao, // Default bolt pattern
+          size: [], // Default
+          color: [], // Default
+          rating: 0, // Default
+          reviews: 0, // Default
+          featured: false, // Default
+          description: item.descricao,
+          specifications: [], // Default
+          images: [item.url_imagem] // Use the same image
+        }));
+
+        setProducts(mappedProducts);
+      } catch (error) {
+        console.error('Error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Translation mappings
   const translateCategory = (cat: string) => {
@@ -36,11 +84,16 @@ export function ProductsPage() {
     return size === 'all' ? 'Todos' : size;
   };
 
+  const translateFuracao = (furacao: string) => {
+    return furacao === 'all' ? 'Todos' : furacao;
+  };
+
   // Filter products
   let filteredProducts = products.filter(product => {
     if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
-    if (selectedBrand !== 'all' && product.brand !== selectedBrand) return false;
-    if (selectedSize !== 'all' && !product.size.includes(selectedSize)) return false;
+    if (selectedBrand !== 'all' && product.marca !== selectedBrand) return false;
+    if (selectedSize !== 'all' && product.aro?.toString() !== selectedSize) return false;
+    if (selectedFuracao !== 'all' && !product.furacao.includes(selectedFuracao)) return false;  
     if (product.price < priceRange[0] || product.price > priceRange[1]) return false;
     return true;
   });
@@ -60,33 +113,12 @@ export function ProductsPage() {
     }
   });
 
-  const categories = ['all', ...new Set(products.map(p => p.category))];
-  const brands = ['all', ...new Set(products.map(p => p.brand))];
-  const sizes = ['all', ...new Set(products.flatMap(p => p.size))];
+  const brands = ['all', ...Array.from(new Set(products.map(p => p.marca))).sort((a, b) => a.localeCompare(b))];
+  const sizes = ['all', ...Array.from(new Set(products.map(p => p.aro))).sort((a, b) => a - b)];
+  const furacao = ['all', ...Array.from(new Set(products.map(p => p.furacao))).sort((a, b) => a.localeCompare(b))];
 
   const FilterSidebar = () => (
     <div className="space-y-6">
-      {/* Category Filter */}
-      <div>
-        <h3 className="text-white font-semibold mb-3">{strings.products.category}</h3>
-        <div className="space-y-2">
-          {categories.map(category => (
-            <label key={category} className="flex items-center space-x-2 cursor-pointer group">
-              <input
-                type="radio"
-                name="category"
-                checked={selectedCategory === category}
-                onChange={() => setSelectedCategory(category)}
-                className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
-              />
-              <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
-                {translateCategory(category)}
-              </span>
-            </label>
-          ))}
-        </div>
-      </div>
-
       {/* Brand Filter */}
       <div>
         <h3 className="text-white font-semibold mb-3">{strings.products.brand}</h3>
@@ -118,16 +150,38 @@ export function ProductsPage() {
                 type="radio"
                 name="size"
                 checked={selectedSize === size}
-                onChange={() => setSelectedSize(size)}
+                onChange={() => setSelectedSize(size.toString())}
                 className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
               />
               <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
-                {translateSize(size)}
+                {translateSize(size.toString())}
               </span>
             </label>
           ))}
         </div>
       </div>
+
+      {/* Furacao Filter */}
+      <div>
+        <h3 className="text-white font-semibold mb-3">{strings.products.tituloFuracao}</h3>
+        <div className="space-y-2">
+          {furacao.map(furacao => (
+            <label key={furacao} className="flex items-center space-x-2 cursor-pointer group">
+              <input
+                type="radio"
+                name="furacao"
+                checked={selectedFuracao === furacao}
+                onChange={() => setSelectedFuracao(furacao)}
+                className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
+              />
+              <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
+                {translateFuracao(furacao || 'all')}
+              </span>
+            </label>
+          ))}
+        </div>
+      </div>
+
 
       {/* Price Range */}
       <div>
@@ -173,7 +227,7 @@ export function ProductsPage() {
             {strings.products.allProducts.split(' os ')[0]} <span className="text-[#dc2626]">os {strings.products.allProducts.split(' os ')[1]}</span>
           </h1>
           <p className="text-gray-400">
-            {strings.products.showingProducts.replace('{filtered}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
+            {loading ? 'Carregando produtos...' : strings.products.showingProducts.replace('{filtered}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
           </p>
         </div>
 
@@ -237,7 +291,11 @@ export function ProductsPage() {
 
           {/* Products Grid */}
           <div className="flex-1">
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <p className="text-gray-400 text-lg">Carregando produtos...</p>
+              </div>
+            ) : filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map(product => (
                   <ProductCard key={product.id} product={product} />
