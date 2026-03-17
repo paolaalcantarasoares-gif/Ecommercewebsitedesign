@@ -12,53 +12,61 @@ export function ProductsPage() {
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedFuracao, setSelectedFuracao] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 4000]);
   const [sortBy, setSortBy] = useState<string>('popular');
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('produtos')
-          .select('*');
+  const fetchProducts = async () => {
+    try {
+      setLoading(true); // Garante que o loading comece ao buscar
+      const { data, error } = await supabase
+        .from('produtos')
+        .select('*');
 
-        console.log('Fetched products:', data);
-
-        if (error) {
-          console.error('Error fetching products:', error);
-          return;
-        }
-
-        const mappedProducts = (data || []).map(item => ({
-          id: item.id,
-          name: item.descricao,
-          price: item.valor,
-          image: item.url_imagem,
-          category: 'Geral', // Default since not in table
-          marca: item.marca,  // Default
-          aro: item.aro, // Default rim size as number
-          furacao: item.furacao, // Default bolt pattern
-          size: [], // Default
-          color: [], // Default
-          rating: 0, // Default
-          reviews: 0, // Default
-          featured: false, // Default
-          description: item.descricao,
-          specifications: [], // Default
-          images: [item.url_imagem] // Use the same image
-        }));
-
-        setProducts(mappedProducts);
-      } catch (error) {
-        console.error('Error:', error);
-      } finally {
-        setLoading(false);
+      if (error) {
+        console.error('Error fetching products:', error);
+        return;
       }
-    };
 
-    fetchProducts();
-  }, []);
+      // 1. Mapeia os produtos primeiro
+      const mappedProducts = (data || []).map(item => ({
+        id: item.id,
+        name: item.descricao,
+        price: item.valor,
+        image: item.url_imagem,
+        category: item.categoria || 'Geral',
+        marca: item.marca,
+        aro: item.aro,
+        furacao: item.furacao || '',
+        size: [], // Mantido para compatibilidade com seu tipo Product
+        color: [],
+        rating: 0,
+        reviews: 0,
+        featured: false,
+        description: item.descricao,
+        specifications: [],
+        images: [item.url_imagem]
+      }));
+
+      // 2. Define os produtos no estado
+      setProducts(mappedProducts);
+
+      // 3. Calcula o preço máximo dinamicamente
+      if (mappedProducts.length > 0) {
+        const maxPrice = Math.max(...mappedProducts.map(p => p.price));
+        setPriceRange([0, maxPrice]);
+      }
+
+    } catch (error) {
+      console.error('Erro inesperado:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchProducts();
+}, []);
 
   // Translation mappings
   const translateCategory = (cat: string) => {
@@ -86,6 +94,13 @@ export function ProductsPage() {
 
   const translateFuracao = (furacao: string) => {
     return furacao === 'all' ? 'Todos' : furacao;
+  };
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value)
   };
 
   // Filter products
@@ -182,26 +197,34 @@ export function ProductsPage() {
         </div>
       </div>
 
-
-      {/* Price Range */}
-      <div>
-        <h3 className="text-white font-semibold mb-3">{strings.products.priceRange}</h3>
-        <div className="space-y-3">
-          <input
-            type="range"
-            min="0"
-            max="2000"
-            step="100"
-            value={priceRange[1]}
-            onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
-            className="w-full accent-[#dc2626]"
-          />
-          <div className="flex justify-between text-gray-400 text-sm">
-            <span>R${priceRange[0]}</span>
-            <span>R${priceRange[1]}</span>
-          </div>
-        </div>
-      </div>
+{/* Price Range */}
+<div>
+  <h3 className="text-white font-semibold mb-3">{strings.products.priceRange}</h3>
+  <div className="space-y-3">
+    <input
+      type="range"
+      min="0"
+      /* Define o máximo dinamicamente com base no produto mais caro */
+      max={products.length > 0 ? Math.max(...products.map(p => p.price)) : 2000}
+      step="10"
+      value={priceRange[1]}
+      onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+      className="w-full h-2 bg-[#262626] rounded-lg appearance-none cursor-pointer accent-[#dc2626]"
+    />
+    
+    <div className="flex justify-between text-gray-400 text-sm font-medium">
+      {/* Valor mínimo formatado */}
+      <span className="bg-[#1a1a1a] px-2 py-1 rounded border border-[#262626]">
+        {formatCurrency(priceRange[0])}
+      </span>
+      
+      {/* Valor máximo selecionado formatado */}
+      <span className="bg-[#1a1a1a] px-2 py-1 rounded border border-[#262626] text-white">
+        {formatCurrency(priceRange[1])}
+      </span>
+    </div>
+  </div>
+</div>
 
       {/* Reset Filters */}
       <button
