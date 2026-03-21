@@ -4,7 +4,7 @@ export interface Product {
   price: number;
   image: string;
   category: string;
-  brand: string;
+  marca: string;
   aro: number;
   furacao: string;
   size: string[];
@@ -27,7 +27,7 @@ export const products: Product[] = [
     price: 1299.99,
     image: 'https://images.unsplash.com/photo-1729243830701-b3acde954451?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXIlMjB3aGVlbCUyMGFsbG95JTIwc3BvcnRzfGVufDF8fHx8MTc3MzI0NjE4M3ww&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Racing Pro',
+    marca: 'Racing Pro',
     aro: 17,
     furacao: '5x112',
     size: ['17"', '18"', '19"', '20"'],
@@ -56,7 +56,7 @@ export const products: Product[] = [
     price: 899.99,
     image: 'https://images.unsplash.com/photo-1758563920433-4b89316160e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFjayUyMGFsbG95JTIwd2hlZWwlMjByaW18ZW58MXx8fHwxNzczMjQ2MTgzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Elite Motors',
+    marca: 'Elite Motors',
     aro: 18,
     furacao: "",
     size: ['18"', '19"', '20"'],
@@ -84,7 +84,7 @@ export const products: Product[] = [
     price: 1499.99,
     image: 'https://images.unsplash.com/photo-1772391579024-fc09e103be4b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaHJvbWUlMjB3aGVlbCUyMHJpbSUyMGF1dG9tb3RpdmV8ZW58MXx8fHwxNzczMjQ2MTgzfDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Chrome Master',
+    marca: 'Chrome Master',
     size: ['17"', '18"', '19"', '20"', '22"'],
     color: ['Chrome', 'Black Chrome'],
     rating: 4.9,
@@ -112,7 +112,7 @@ export const products: Product[] = [
     price: 1099.99,
     image: 'https://images.unsplash.com/photo-1617045434421-a72d713fc8a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXYlMjB0cnVjayUyMHdoZWVsJTIwdGlyZXxlbnwxfHx8fDE3NzMyNDYxODR8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'SUV Wheels',
-    brand: 'Terrain King',
+    marca: 'Terrain King',
     aro: 17,
     furacao: "",
     size: ['17"', '18"', '20"'],
@@ -140,7 +140,7 @@ export const products: Product[] = [
     price: 1399.99,
     image: 'https://images.unsplash.com/photo-1767712774532-2d58c9edf7b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwZXJmb3JtYW5jZSUyMGNhciUyMHdoZWVsJTIwY2xvc2V8ZW58MXx8fHwxNzczMjQ2MTg0fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Racing Pro',
+    marca: 'Racing Pro',
     aro: 18,
     furacao: "",
     size: ['18"', '19"', '20"'],
@@ -167,7 +167,7 @@ export const products: Product[] = [
     price: 1599.99,
     image: 'https://images.unsplash.com/photo-1553072464-6e106d8b602f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyYWNpbmclMjB3aGVlbCUyMHNwb3J0cyUyMGNhcnxlbnwxfHx8fDE3NzMyNDYxODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Track Master',
+    marca: 'Track Master',
     size: ['19"', '20"', '21"'],
     color: ['Black', 'Silver', 'Titanium'],
     rating: 4.9,
@@ -194,7 +194,7 @@ export const products: Product[] = [
     price: 1799.99,
     image: 'https://images.unsplash.com/photo-1752959818576-b0991721789d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBjYXIlMjB3aGVlbCUyMGRldGFpbHxlbnwxfHx8fDE3NzMyNDYxODV8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Luxury Auto',
+    marca: 'Luxury Auto',
     aro: 19,
     furacao: "",
     size: ['19"', '20"', '21"', '22"'],
@@ -221,7 +221,7 @@ export const products: Product[] = [
     price: 1449.99,
     image: 'https://images.unsplash.com/photo-1732564401435-1a27110f2528?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZWQlMjBzcG9ydHMlMjBjYXIlMjB3aGVlbHxlbnwxfHx8fDE3NzMyNDYxODZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Speed Demon',
+    marca: 'Speed Demon',
     aro: 18,
     furacao: "",
     size: ['18"', '19"', '20"'],
@@ -248,7 +248,7 @@ export const products: Product[] = [
     price: 1199.99,
     image: 'https://images.unsplash.com/photo-1705357311458-398681eb9da8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRvbW90aXZlJTIwd29ya3Nob3AlMjB3aGVlbHN8ZW58MXx8fHwxNzczMjQ2MTg2fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Truck Wheels',
-    brand: 'Heavy Hauler',
+    marca: 'Heavy Hauler',
     aro: 17,
     furacao: "",
     size: ['17"', '18"', '20"'],
@@ -275,7 +275,7 @@ export const products: Product[] = [
     price: 1699.99,
     image: 'https://images.unsplash.com/photo-1769500152368-a38a756b0367?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYXIlMjBwZXJmb3JtYW5jZSUyMHJpbXN8ZW58MXx8fHwxNzczMjQ2MTg2fDA&ixlib=rb-4.1.0&q=80&w=1080',
     category: 'Sport Wheels',
-    brand: 'Elite Motors',
+    marca: 'Elite Motors',
     aro: 19,
     furacao: "",
     size: ['19"', '20"', '21"'],

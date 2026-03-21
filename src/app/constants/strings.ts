@@ -21,15 +21,15 @@ export const strings = {
     instagramHandle: "@fastrodas",
     seeWheelsInAction: "Veja nossas rodas em ação"
   },
+  
   products: {
     allProducts: "Todos os Produtos",
     showingProducts: "Mostrando {filtered} de {total} produtos",
     filters: "Filtros",
     category: "Categoria",
     brand: "Marca",
-    wheelSize: "Tamanho da Roda",
-    furacao: "Furação",
     tituloFuracao: "Furação",
+    wheelSize: "Tamanho da Roda",
     priceRange: "Faixa de Preço",
     resetFilters: "Redefinir Filtros",
     sortBy: "Ordenar por:",

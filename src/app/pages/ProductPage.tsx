@@ -26,12 +26,11 @@ export function ProductPage() {
     );
   }
 
-  // Get related products (same category, excluding current product)
   const relatedProducts = products
     .filter(p => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
 
-  const whatsappMessage = `Hi! I'm interested in ${product.name} (${selectedSize || 'size not selected'}, ${selectedColor || 'color not selected'})`;
+  const whatsappMessage = `Olá, tenho interesse no ${product.name} (${selectedSize || 'tamanho não selecionado'}, ${selectedColor || 'cor não selecionada'})`;  
   const whatsappLink = `https://wa.me/5511999999999?text=${encodeURIComponent(whatsappMessage)}`;
 
   return (
@@ -76,7 +75,7 @@ export function ProductPage() {
 
           {/* Product Info */}
           <div>
-            <div className="text-sm text-gray-400 mb-2">{product.brand}</div>
+            <div className="text-sm text-gray-400 mb-2">{product.marca}</div>
             <h1 className="text-3xl md:text-4xl font-black text-white mb-4">
               {product.name}
             </h1>
