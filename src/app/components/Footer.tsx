@@ -13,7 +13,7 @@ export function Footer() {
               <span className="text-5xl font-black text-[#dc2626] ml-2">RODAS</span>
             </div>
             <p className="text-gray-300 text-lg mb-6 max-w-md">
-              {strings.footer.brandDesc}
+              {strings.footer.brandDesc}   
             </p>
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/profile.php?id=100065162403809&ref=NONE_xav_ig_profile_page_web#" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-[#dc2626] transition-colors">
