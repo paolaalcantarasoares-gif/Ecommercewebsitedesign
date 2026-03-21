@@ -6,341 +6,247 @@ import { strings } from '../constants/strings';
 import type { Product } from '../data/products';
 
 export function ProductsPage() {
+  // --- Estados ---
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState<string>('popular');
+
   const [selectedBrand, setSelectedBrand] = useState<string>('all');
   const [selectedSize, setSelectedSize] = useState<string>('all');
   const [selectedFuracao, setSelectedFuracao] = useState<string>('all');
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 4000]);
-  const [sortBy, setSortBy] = useState<string>('popular');
-  const [showFilters, setShowFilters] = useState(false);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
 
+  // --- Busca de Dados ---
   useEffect(() => {
-  const fetchProducts = async () => {
-    try {
-      setLoading(true); // Garante que o loading comece ao buscar
-      const { data, error } = await supabase
-        .from('produtos')
-        .select('*');
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase.from('produtos').select('*');
+        if (error) throw error;
 
-      if (error) {
-        console.error('Error fetching products:', error);
-        return;
+        const mappedProducts: Product[] = (data || []).map(item => ({
+          id: item.id,
+          name: item.descricao,
+          price: item.valor,
+          image: item.url_imagem,
+          category: item.categoria || 'Geral',
+          marca: item.marca,
+          aro: item.aro,
+          furacao: item.furacao || '',
+          size: [], 
+          color: [],
+          rating: 0,
+          reviews: 0,
+          featured: false,
+          description: item.descricao,
+          specifications: [],
+          images: [item.url_imagem]
+        }));
+
+        setProducts(mappedProducts);
+
+        if (mappedProducts.length > 0) {
+          const maxPrice = Math.max(...mappedProducts.map(p => p.price));
+          setPriceRange([0, maxPrice]);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar produtos:', error);
+      } finally {
+        setLoading(false);
       }
-
-      // 1. Mapeia os produtos primeiro
-      const mappedProducts = (data || []).map(item => ({
-        id: item.id,
-        name: item.descricao,
-        price: item.valor,
-        image: item.url_imagem,
-        category: item.categoria || 'Geral',
-        marca: item.marca,
-        aro: item.aro,
-        furacao: item.furacao || '',
-        size: [], // Mantido para compatibilidade com seu tipo Product
-        color: [],
-        rating: 0,
-        reviews: 0,
-        featured: false,
-        description: item.descricao,
-        specifications: [],
-        images: [item.url_imagem]
-      }));
-
-      // 2. Define os produtos no estado
-      setProducts(mappedProducts);
-
-      // 3. Calcula o preço máximo dinamicamente
-      if (mappedProducts.length > 0) {
-        const maxPrice = Math.max(...mappedProducts.map(p => p.price));
-        setPriceRange([0, maxPrice]);
-      }
-
-    } catch (error) {
-      console.error('Erro inesperado:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchProducts();
-}, []);
-
-  // Translation mappings
-  const translateCategory = (cat: string) => {
-    const translations: { [key: string]: string } = {
-      'all': 'Todos',
-      'Sport Wheels': 'Rodas Esportivas',
-      'SUV Wheels': 'Rodas para SUV'
     };
-    return translations[cat] || cat;
-  };
-
-  const translateBrand = (brand: string) => {
-    const translations: { [key: string]: string } = {
-      'all': 'Todos',
-      'Racing Pro': 'Racing Pro',
-      'Elite Motors': 'Elite Motors',
-      'Chrome Master': 'Chrome Master'
-    };
-    return translations[brand] || brand;
-  };
-
-  const translateSize = (size: string) => {
-    return size === 'all' ? 'Todos' : size;
-  };
-
-  const translateFuracao = (furacao: string) => {
-    return furacao === 'all' ? 'Todos' : furacao;
-  };
+    fetchProducts();
+  }, []);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
-    }).format(value)
+    }).format(value);
   };
 
-  // Filter products
-  let filteredProducts = products.filter(product => {
-    if (selectedCategory !== 'all' && product.category !== selectedCategory) return false;
-    if (selectedBrand !== 'all' && product.marca !== selectedBrand) return false;
-    if (selectedSize !== 'all' && product.aro?.toString() !== selectedSize) return false;
-    if (selectedFuracao !== 'all' && !product.furacao.includes(selectedFuracao)) return false;  
+  // --- Lógica de Listas para Filtros (Garantindo 'all' SEMPRE no topo) ---
+  
+  // 1. Marcas
+  const sortedBrands = Array.from(new Set(products.map(p => p.marca?.trim())))
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+  const finalBrands = ['all', ...sortedBrands];
+
+  // 2. Tamanhos (Aros)
+  const sortedSizes = Array.from(new Set(products.map(p => p.aro?.toString().trim())))
+    .filter(Boolean)
+    .sort((a, b) => Number(a) - Number(b));
+  const finalSizes = ['all', ...sortedSizes];
+
+  // 3. Furações
+  const sortedFuracoes = Array.from(new Set(products.map(p => p.furacao?.trim().toUpperCase())))
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+  const finalFuracoes = ['all', ...sortedFuracoes];
+
+  const maxAvailablePrice = products.length > 0 ? Math.max(...products.map(p => p.price)) : 5000;
+
+  // --- Lógica de Filtragem ---
+  const filteredProducts = products.filter(product => {
+    if (selectedBrand !== 'all' && product.marca?.trim() !== selectedBrand) return false;
+    if (selectedSize !== 'all' && product.aro?.toString().trim() !== selectedSize) return false;
+    if (selectedFuracao !== 'all' && product.furacao?.trim().toUpperCase() !== selectedFuracao) return false;
     if (product.price < priceRange[0] || product.price > priceRange[1]) return false;
     return true;
+  }).sort((a, b) => {
+    if (sortBy === 'price-low') return a.price - b.price;
+    if (sortBy === 'price-high') return b.price - a.price;
+    return 0;
   });
 
-  // Sort products
-  filteredProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case 'price-low':
-        return a.price - b.price;
-      case 'price-high':
-        return b.price - a.price;
-      case 'newest':
-        return 0; // In a real app, would sort by date
-      case 'popular':
-      default:
-        return b.rating - a.rating;
-    }
-  });
-
-  const brands = ['all', ...Array.from(new Set(products.map(p => p.marca))).sort((a, b) => a.localeCompare(b))];
-  const sizes = ['all', ...Array.from(new Set(products.map(p => p.aro))).sort((a, b) => a - b)];
-  const furacao = ['all', ...Array.from(new Set(products.map(p => p.furacao))).sort((a, b) => a.localeCompare(b))];
+  // --- Componente de Opção de Filtro Padronizada ---
+  const FilterOption = ({ label, isSelected, onClick, isHeader = false }: any) => (
+    <label 
+      className={`flex items-center space-x-3 cursor-pointer group py-1.5 ${isHeader ? 'border-b border-white/10 mb-2 pb-2.5' : ''}`}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
+    >
+      <div className={`w-4 h-4 rounded-full border flex items-center justify-center transition-all ${isSelected ? 'border-[#dc2626] bg-[#dc2626]/10' : 'border-gray-600 group-hover:border-gray-400'}`}>
+        {isSelected && <div className="w-2 h-2 rounded-full bg-[#dc2626] shadow-[0_0_8px_rgba(220,38,38,0.5)]" />}
+      </div>
+      <span className={`text-sm transition-colors ${isSelected ? 'text-white font-bold' : 'text-gray-400 group-hover:text-gray-200'}`}>
+        {label}
+      </span>
+    </label>
+  );
 
   const FilterSidebar = () => (
-    <div className="space-y-6">
-      {/* Brand Filter */}
+    <div className="space-y-10">
+      {/* Marcas */}
       <div>
-        <h3 className="text-white font-semibold mb-3">{strings.products.brand}</h3>
-        <div className="space-y-2">
-          {brands.map(brand => (
-            <label key={brand} className="flex items-center space-x-2 cursor-pointer group">
-              <input
-                type="radio"
-                name="brand"
-                checked={selectedBrand === brand}
-                onChange={() => setSelectedBrand(brand)}
-                className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
-              />
-              <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
-                {translateBrand(brand)}
-              </span>
-            </label>
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4 italic">Marcas</h3>
+        <div className="flex flex-col">
+          {finalBrands.map(brand => (
+            <FilterOption 
+              key={brand}
+              label={brand === 'all' ? 'Todas as Marcas' : brand}
+              isSelected={selectedBrand === brand}
+              onClick={() => setSelectedBrand(brand)}
+              isHeader={brand === 'all'}
+            />
           ))}
         </div>
       </div>
 
-      {/* Size Filter */}
+      {/* Tamanhos */}
       <div>
-        <h3 className="text-white font-semibold mb-3">{strings.products.wheelSize}</h3>
-        <div className="space-y-2">
-          {sizes.map(size => (
-            <label key={size} className="flex items-center space-x-2 cursor-pointer group">
-              <input
-                type="radio"
-                name="size"
-                checked={selectedSize === size}
-                onChange={() => setSelectedSize(size.toString())}
-                className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
-              />
-              <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
-                {translateSize(size.toString())}
-              </span>
-            </label>
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4 italic">Tamanho do Aro</h3>
+        <div className="flex flex-col">
+          {finalSizes.map(size => (
+            <FilterOption 
+              key={size}
+              label={size === 'all' ? 'Todos os Tamanhos' : `Aro ${size}`}
+              isSelected={selectedSize === size}
+              onClick={() => setSelectedSize(size)}
+              isHeader={size === 'all'}
+            />
           ))}
         </div>
       </div>
 
-      {/* Furacao Filter */}
+      {/* Furações */}
       <div>
-        <h3 className="text-white font-semibold mb-3">{strings.products.tituloFuracao}</h3>
-        <div className="space-y-2">
-          {furacao.map(furacao => (
-            <label key={furacao} className="flex items-center space-x-2 cursor-pointer group">
-              <input
-                type="radio"
-                name="furacao"
-                checked={selectedFuracao === furacao}
-                onChange={() => setSelectedFuracao(furacao)}
-                className="w-4 h-4 text-[#dc2626] border-gray-600 focus:ring-[#dc2626] bg-[#1a1a1a]"
-              />
-              <span className="text-gray-400 group-hover:text-white transition-colors capitalize">
-                {translateFuracao(furacao || 'all')}
-              </span>
-            </label>
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4 italic">Furação</h3>
+        <div className="flex flex-col">
+          {finalFuracoes.map(f => (
+            <FilterOption 
+              key={f}
+              label={f === 'all' ? 'Todas as Furações' : f}
+              isSelected={selectedFuracao === f}
+              onClick={() => setSelectedFuracao(f)}
+              isHeader={f === 'all'}
+            />
           ))}
         </div>
       </div>
 
-{/* Price Range */}
-<div>
-  <h3 className="text-white font-semibold mb-3">{strings.products.priceRange}</h3>
-  <div className="space-y-3">
-    <input
-      type="range"
-      min="0"
-      /* Define o máximo dinamicamente com base no produto mais caro */
-      max={products.length > 0 ? Math.max(...products.map(p => p.price)) : 2000}
-      step="10"
-      value={priceRange[1]}
-      onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
-      className="w-full h-2 bg-[#262626] rounded-lg appearance-none cursor-pointer accent-[#dc2626]"
-    />
-    
-    <div className="flex justify-between text-gray-400 text-sm font-medium">
-      {/* Valor mínimo formatado */}
-      <span className="bg-[#1a1a1a] px-2 py-1 rounded border border-[#262626]">
-        {formatCurrency(priceRange[0])}
-      </span>
-      
-      {/* Valor máximo selecionado formatado */}
-      <span className="bg-[#1a1a1a] px-2 py-1 rounded border border-[#262626] text-white">
-        {formatCurrency(priceRange[1])}
-      </span>
-    </div>
-  </div>
-</div>
+      {/* Faixa de Preço */}
+      <div>
+        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-500 mb-4 italic">Faixa de Preço</h3>
+        <div className="flex flex-col">
+          <input
+            type="range"
+            min="0"
+            max={maxAvailablePrice}
+            value={priceRange[1]}
+            onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+            className="w-full h-3 bg-[#262626] rounded-lg appearance-none cursor-pointer accent-[#dc2626]"
+          />
+          <div className="flex justify-between text-[15px] font-mono text-gray-500">
+            <span>{formatCurrency(priceRange[0])}</span>
+            <span className="text-red font-bold">{formatCurrency(priceRange[1])}</span>
+          </div>
+        </div>
+      </div>
 
-      {/* Reset Filters */}
       <button
-        onClick={() => {
-          setSelectedCategory('all');
-          setSelectedBrand('all');
-          setSelectedSize('all');
-          setPriceRange([0, 2000]);
-        }}
-        className="w-full px-4 py-2 bg-[#262626] hover:bg-[#333333] text-white rounded-md transition-colors"
+        onClick={() => { setSelectedBrand('all'); setSelectedSize('all'); setSelectedFuracao('all'); setPriceRange([0, maxAvailablePrice]); }}
+        className="w-full py-3 bg-white/5 hover:bg-[#dc2626] text-white text-[10px] font-black uppercase tracking-widest rounded transition-all duration-300 border border-white/5"
       >
-        {strings.products.resetFilters}
+        Limpar Filtros
       </button>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] py-8">
+    <div className="min-h-screen bg-[#0a0a0a] text-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
-            {strings.products.allProducts.split(' os ')[0]} <span className="text-[#dc2626]">os {strings.products.allProducts.split(' os ')[1]}</span>
-          </h1>
-          <p className="text-gray-400">
-            {loading ? 'Carregando produtos...' : strings.products.showingProducts.replace('{filtered}', filteredProducts.length.toString()).replace('{total}', products.length.toString())}
-          </p>
-        </div>
-
-        {/* Filters and Sort Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="md:hidden flex items-center space-x-2 px-4 py-2 bg-[#1a1a1a] hover:bg-[#262626] text-white rounded-md transition-colors"
-          >
-            <SlidersHorizontal className="w-4 h-4" />
-            <span>{strings.products.filters}</span>
-          </button>
-
-          <div className="flex items-center space-x-2 w-full md:w-auto">
-            <label className="text-gray-400 text-sm whitespace-nowrap">{strings.products.sortBy}</label>
+        <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
+          <div>
+            <h1 className="text-5xl font-black uppercase italic tracking-tighter">Fast <span className="text-[#dc2626]">Rodas</span></h1>
+            <p className="text-gray-500 text-xs mt-2 uppercase tracking-widest">
+              {loading ? 'Carregando estoque...' : `${filteredProducts.length} Modelos Disponíveis`}
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] text-gray-500 uppercase font-bold">Ordenar por:</span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="flex-1 md:flex-initial px-4 py-2 bg-[#1a1a1a] border border-[#262626] text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#dc2626]"
+              className="bg-[#111] border border-white/10 text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded outline-none focus:border-[#dc2626] cursor-pointer"
             >
-              <option value="popular">{strings.products.mostPopular}</option>
-              <option value="price-low">{strings.products.priceLowToHigh}</option>
-              <option value="price-high">{strings.products.priceHighToLow}</option>
-              <option value="newest">{strings.products.newest}</option>
+              <option value="popular">Destaques</option>
+              <option value="price-low">Menor Preço</option>
+              <option value="price-high">Maior Preço</option>
             </select>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar Filters - Desktop */}
-          <aside className="hidden md:block w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-[#1a1a1a] border border-[#262626] rounded-lg p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">{strings.products.filters}</h2>
-                <SlidersHorizontal className="w-5 h-5 text-[#dc2626]" />
-              </div>
-              <FilterSidebar />
+        <div className="flex flex-col md:flex-row gap-12">
+          {/* Sidebar de Filtros */}
+          <aside className="w-full md:w-64 flex-shrink-0">
+            <div className="sticky top-24">
+               <FilterSidebar />
             </div>
           </aside>
 
-          {/* Mobile Filters */}
-          {showFilters && (
-            <div className="fixed inset-0 z-50 md:hidden">
-              <div className="absolute inset-0 bg-black/80" onClick={() => setShowFilters(false)} />
-              <div className="absolute right-0 top-0 bottom-0 w-80 max-w-[90vw] bg-[#1a1a1a] border-l border-[#262626] overflow-y-auto">
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-xl font-bold text-white">{strings.products.filters}</h2>
-                    <button
-                      onClick={() => setShowFilters(false)}
-                      className="p-2 text-gray-400 hover:text-white"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <FilterSidebar />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Products Grid */}
-          <div className="flex-1">
+          {/* Grid de Produtos */}
+          <main className="flex-1">
             {loading ? (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">Carregando produtos...</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 animate-pulse">
+                {[1, 2, 3, 4, 5, 6].map(n => (
+                  <div key={n} className="bg-[#111] aspect-[4/5] rounded-xl border border-white/5"></div>
+                ))}
               </div>
-            ) : filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {filteredProducts.map(product => (
                   <ProductCard key={product.id} product={product} />
                 ))}
               </div>
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">{strings.products.noProductsFound}</p>
-                <button
-                  onClick={() => {
-                    setSelectedCategory('all');
-                    setSelectedBrand('all');
-                    setSelectedSize('all');
-                    setPriceRange([0, 2000]);
-                  }}
-                  className="mt-4 text-[#dc2626] hover:text-white transition-colors"
-                >
-                  {strings.products.clearAllFilters}
-                </button>
-              </div>
             )}
-          </div>
+          </main>
         </div>
       </div>
     </div>
