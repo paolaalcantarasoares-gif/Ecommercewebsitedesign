@@ -68,5 +68,35 @@ export const strings = {
   },
   productCard: {
     sale: "PROMOÇÃO"
+  },
+  about: {
+    tag: "Quem Somos",
+    heroTitle: "Mais do que rodas.",
+    heroTitleHighlight: "Uma paixão.",
+    heroDesc: "Centro automotivo especializado em rodas, pneus, reformas e mecânica básica. Trabalhamos com qualidade e preço justo desde 1997.",
+    historyTitle: "Nossa História",
+    historyP1: "Desde 1997 no mercado automotivo, a Fast Rodas construiu sua reputação oferecendo rodas, pneus e serviços de qualidade com preço justo para todos os tipos de veículos.",
+    historyP2: "Além da venda de rodas e pneus em geral, realizamos reformas de rodas e mecânica básica — tudo em um só lugar, com atendimento personalizado de segunda a sábado.",
+    address: "📍 R. Epitácio Pessoa, 91 - Jardim Itapua, Itaquaquecetuba - SP",
+    phone: "📞 (11) 94523-8994 / (11) 5199-3721",
+    hours: "🕐 Seg à Sáb das 09:00 às 18:30",
+    stats: [
+      { value: "1997", label: "Ano de fundação" },
+      { value: "18k+", label: "Seguidores no Instagram" },
+      { value: "100%", label: "Qualidade garantida" },
+      { value: "6 dias", label: "Atendimento semanal" },
+    ],
+    storeTitle: "Nossa Loja",
+    teamTitle: "Nossa Equipe",
+    valuesTitle: "Por que escolher a Fast Rodas?",
+    values: [
+      { title: "Qualidade Garantida", desc: "Trabalhamos com peças de qualidade e preço justo. Sua satisfação é nossa prioridade." },
+      { title: "Desde 1997", desc: "Mais de 25 anos de experiência no mercado automotivo de Itaquaquecetuba e região." },
+      { title: "Rodas & Pneus", desc: "Vendas, reformas de rodas e pneus em geral para todos os tipos de veículo." },
+      { title: "Atendimento Completo", desc: "Mecânica básica e consultoria via WhatsApp de segunda a sábado das 09h às 18h30." },
+    ],
+    ctaTitle: "Pronto para transformar seu carro?",
+    ctaDesc: "Explore nosso catálogo completo e encontre a roda perfeita.",
+    ctaButton: "Ver Produtos",
   }
 };

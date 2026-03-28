@@ -20,6 +20,7 @@ export function Header() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-white hover:text-[#dc2626] transition-colors font-medium">{strings.header.home}</Link>
             <Link to="/products" className="text-white hover:text-[#dc2626] transition-colors font-medium">{strings.header.products}</Link>
+            <Link to="/about" className="text-white hover:text-[#dc2626] transition-colors font-medium">Quem Somos</Link>
           </nav>
 
           <div className="flex items-center space-x-4">
